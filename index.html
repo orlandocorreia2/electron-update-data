@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br" xml:lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <title>Imóveis de Leilão</title>
+  </head>
+  <body style="text-align: center">
+    <h1>Lista de Imóveis</h1>
+    <button id="updateRegisters">Atualizar Registros</button>
+    <div id="messageInfo" style="margin-top: 30px"></div>
+    <div id="registersInfo" style="margin-top: 30px"></div>
+    <div id="timeInfo" style="margin-top: 30px"></div>
+
+    <script>
+      const updateRegisters = document.getElementById("updateRegisters");
+      const messageInfo = document.getElementById("messageInfo");
+      const registersInfo = document.getElementById("registersInfo");
+      const timeInfo = document.getElementById("timeInfo");
+      updateRegisters.addEventListener("click", async () => {
+        messageInfo.innerHTML = "";
+        registersInfo.innerHTML = "";
+        timeInfo.innerHTML = "";
+        let time = 0;
+        const timer = setInterval(() => {
+          time++;
+        }, 1000);
+        updateRegisters.disabled = true;
+        updateRegisters.innerHTML = "Atualizando registros...";
+        const { totalRows } = await window.api.updateAuctionProperties();
+        console.log("Atualização finalizada com successo!", totalRows);
+        messageInfo.innerHTML = "Atualização finalizada com successo!";
+        registersInfo.innerHTML = `Registros atualizados: ${totalRows}`;
+        timeInfo.innerHTML = `Tempo: ${time} segundos`;
+        updateRegisters.innerHTML = "Atualizar Registros";
+        updateRegisters.disabled = false;
+        clearInterval(timer);
+      });
+    </script>
+  </body>
+</html>
