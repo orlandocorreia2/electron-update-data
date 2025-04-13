@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const { getDataExtraction } = require("../utils/csv");
 const { convertInteger } = require("../utils/number");
 const { getPage, closeBrowser } = require("../utils/playwrite");
+const { downloadAuctionPropertiesList } = require("../utils/file");
 
 class UpdateAuctionPropertiesUseCase {
   async execute() {
@@ -10,7 +11,7 @@ class UpdateAuctionPropertiesUseCase {
     let totalRows = 0;
 
     try {
-      // await downloadAuctionPropertiesList();
+      await downloadAuctionPropertiesList();
       console.log("Start rows file...");
       await getDataExtraction({
         filePath: "./auction_properties.csv",
