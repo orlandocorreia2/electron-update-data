@@ -1,20 +1,25 @@
 const { PrismaClient } = require("@prisma/client");
 const { getDataExtraction } = require("../utils/csv");
 const { convertInteger } = require("../utils/number");
-const { getPage, closeBrowser } = require("../utils/playwrite");
 const { downloadAuctionPropertiesList } = require("../utils/file");
+const cheerio = require("cheerio");
+const axios = require("axios");
+const httpClient = axios.create();
+httpClient.defaults.timeout = 3000;
+const {
+  UpdateAuctionPropertiesInfo,
+} = require("../shared/UpdateAuctionPropertiesInfo");
 
 class UpdateAuctionPropertiesUseCase {
   async execute() {
     const allData = [];
     const prisma = new PrismaClient();
     let totalRows = 0;
-
     try {
       await downloadAuctionPropertiesList();
       console.log("Start rows file...");
       await getDataExtraction({
-        filePath: "./auction_properties.csv",
+        filePath: "src/tmp/auction_properties.csv",
         fn: async (data) => {
           const {
             _1: uf,
@@ -37,7 +42,6 @@ class UpdateAuctionPropertiesUseCase {
             totalRows++;
             const property_type = description.split(",")[0];
             allData.push({
-              created_by_id: "f3ea4819-0955-4839-815f-a92e13aadbb3",
               number_property,
               uf,
               city,
@@ -50,36 +54,30 @@ class UpdateAuctionPropertiesUseCase {
               description,
               sale_method,
               access_link,
-              accept_financing: "",
+              accept_financing: false,
               photo_link: "",
               registration_property_link: "",
             });
           }
         },
       });
-      const page = await getPage();
-      const baseLinkCaixa = "https://venda-imoveis.caixa.gov.br";
       console.log("Start rows details...");
-      for (let data of allData) {
-        await page.goto(data.access_link);
-        const photo_link = await page.locator("#preview").getAttribute("src");
-        if (photo_link) {
-          data.photo_link = photo_link;
+      let index = 0;
+      const total = allData.length;
+      for (let item of allData) {
+        index++;
+        try {
+          const { data } = await httpClient(item.access_link, { headers: {} });
+          const $ = cheerio.load(data);
+          this.setDescription($, item);
+          this.setPhotoLink($, item);
+          this.setAcceptFinancing($, item);
+          this.setRegistrationPropertyLink($, item);
+          UpdateAuctionPropertiesInfo.info = `${index} de: ${total}`;
+        } catch (error) {
+          console.error("Error:", error.message);
         }
-        const accept_financing =
-          (await page.locator("p").allInnerTexts())
-            .join(" | ")
-            .indexOf("NÃO aceita financiamento") == -1;
-        data.accept_financing = accept_financing;
-        const aOnClick = await page
-          .locator(".related-box > span > a")
-          .getAttribute("onclick");
-        const registration_property_link = aOnClick
-          ? `${baseLinkCaixa}${aOnClick?.split("('")[1].replace("')", "")}`
-          : "";
-        data.registration_property_link = registration_property_link;
       }
-      await closeBrowser();
       console.log("Finish rows details...");
       await prisma.auctionProperty.deleteMany();
       console.log("Finish delete rows...");
@@ -91,9 +89,49 @@ class UpdateAuctionPropertiesUseCase {
         totalRows,
       };
     } catch (error) {
-      console.error("Error fetching auction properties:", error);
+      console.error("Error fetching auction properties:", error.message);
       throw error;
     }
+  }
+
+  setDescription($, item) {
+    try {
+      const descriptionInfoItems = [$($("span")[7]).text()];
+      const description = $($(".related-box > p")[1])
+        .text()
+        .replace("Descrição:", "");
+      const hasPrivateArea = descriptionInfoItems[0].indexOf("privativa") > 0;
+      if (hasPrivateArea) {
+        descriptionInfoItems.push($($("span")[8]).text());
+      }
+      if (description.length > 1) {
+        descriptionInfoItems.push(description);
+      }
+      item.description = descriptionInfoItems.join(", ");
+    } catch {}
+  }
+
+  setPhotoLink($, item) {
+    try {
+      item.photo_link = $("#preview").attr("src");
+    } catch {}
+  }
+
+  setAcceptFinancing($, item) {
+    try {
+      item.accept_financing =
+        $($(".related-box > p")[2]).text().indexOf("Permite financiamento") > 0;
+    } catch {}
+  }
+
+  setRegistrationPropertyLink($, item) {
+    try {
+      item.registration_property_link =
+        $(".related-box > span > a")
+          .attr("onclick")
+          .split("('")[1]
+          .replace("')", "") ?? "";
+    } catch {}
   }
 }
 

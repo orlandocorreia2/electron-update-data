@@ -11,7 +11,7 @@ const downloadAuctionPropertiesList = async () => {
   await page.selectOption("#cmb_estado", { value: "geral" });
   await page.click("#btn_next1");
   const download = await waitForDownloadEvent;
-  await download.saveAs("./auction_properties.csv");
+  await download.saveAs("src/tmp/auction_properties.csv");
   await closeBrowser();
   console.log("Finish download file...");
 };

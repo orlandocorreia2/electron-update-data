@@ -20,11 +20,10 @@ model User {
   updated_at    DateTime  @updatedAt
   deleted_at    DateTime?
 
-  createdBy                User?                 @relation("UserCreatedBy", fields: [created_by_id], references: [id])
-  createdUsers             User[]                @relation("UserCreatedBy")
-  createdPermissionGroups  PermissionGroup[]     @relation("UserCreatedPermissionGroups")
-  createdAuctionProperties AuctionProperty[]     @relation("UserCreatedAuctionProperties")
-  permissionGroups         UserPermissionGroup[]
+  createdBy               User?                 @relation("UserCreatedBy", fields: [created_by_id], references: [id])
+  createdUsers            User[]                @relation("UserCreatedBy")
+  createdPermissionGroups PermissionGroup[]     @relation("UserCreatedPermissionGroups")
+  permissionGroups        UserPermissionGroup[]
 
   @@map("users")
 }
@@ -96,7 +95,6 @@ model Token {
 
 model AuctionProperty {
   id                         String   @id @default(uuid())
-  created_by_id              String
   number_property            BigInt
   uf                         String
   city                       String
@@ -114,8 +112,6 @@ model AuctionProperty {
   registration_property_link String?
   created_at                 DateTime @default(now())
   updated_at                 DateTime @updatedAt
-
-  createdBy User @relation("UserCreatedAuctionProperties", fields: [created_by_id], references: [id])
 
   @@map("auction_properties")
 }
