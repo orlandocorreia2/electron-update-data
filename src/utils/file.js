@@ -1,4 +1,5 @@
 const { getPage, closeBrowser } = require("./playwrite");
+const fs = require("fs");
 
 const downloadAuctionPropertiesList = async () => {
   console.log("Start download file...");
@@ -27,5 +28,14 @@ const getDetailAuctionProperty = async (access_link, page) => {
   }
 };
 
+const renameFile = ({ oldName, newName }) => {
+  fs.rename(oldName, newName, (error) => {
+    if (error) {
+      console.error("Error rename file:", error.message);
+    }
+  });
+};
+
 exports.downloadAuctionPropertiesList = downloadAuctionPropertiesList;
 exports.getDetailAuctionProperty = getDetailAuctionProperty;
+exports.renameFile = renameFile;

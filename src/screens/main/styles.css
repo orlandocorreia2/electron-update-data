@@ -6,3 +6,11 @@ body {
   height: 600px;
   overflow: hidden;
 }
+
+.w-full {
+  width: 100%;
+}
+
+.mb-md {
+  margin-bottom: 30px;
+}

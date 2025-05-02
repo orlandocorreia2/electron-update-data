@@ -6,6 +6,9 @@ const {
 const {
   UpdateAuctionPropertiesInfo,
 } = require("./shared/UpdateAuctionPropertiesInfo");
+const {
+  CompareUpdateAuctionPropertiesUseCase,
+} = require("./usecases/CompareUpdateAuctionPropertiesUseCase");
 
 app.whenReady().then(() => {
   mainWindow();
@@ -21,6 +24,10 @@ app.on("window-all-closed", () => {
 
 ipcMain.handle("updateAuctionProperties", async () => {
   return await new UpdateAuctionPropertiesUseCase().execute();
+});
+
+ipcMain.handle("compareUpdateAuctionProperties", async () => {
+  return await new CompareUpdateAuctionPropertiesUseCase().execute();
 });
 
 ipcMain.handle("updateAuctionPropertiesInfo", () => {
