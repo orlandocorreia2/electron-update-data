@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const { getDataExtraction } = require("../utils/csv");
 const { convertInteger } = require("../utils/number");
 const { downloadAuctionPropertiesList } = require("../utils/file");
+const { trimObject } = require("../utils/util");
 
 class UpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
   async execute() {
@@ -33,7 +34,7 @@ class UpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
             number_property > 0
           ) {
             const property_type = description.split(",")[0];
-            allData.push({
+            const addData = trimObject({
               number_property,
               uf,
               city,
@@ -50,6 +51,7 @@ class UpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
               photo_link: "",
               registration_property_link: "",
             });
+            allData.push(addData);
           }
         },
       });

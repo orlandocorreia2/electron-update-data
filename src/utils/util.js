@@ -7,4 +7,25 @@ const sleep = (time = 1) => {
   });
 };
 
+const trimObject = (obj) => {
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
+  const trimmedObj = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      if (typeof value === "string") {
+        trimmedObj[key] = value.trim();
+      } else if (typeof value === "object" && value !== null) {
+        trimmedObj[key] = trimObject(value);
+      } else {
+        trimmedObj[key] = value;
+      }
+    }
+  }
+  return trimmedObj;
+};
+
 exports.sleep = sleep;
+exports.trimObject = trimObject;

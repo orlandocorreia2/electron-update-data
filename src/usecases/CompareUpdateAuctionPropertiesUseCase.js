@@ -2,6 +2,7 @@ const { SaveAuctionProperties } = require("../shared/SaveAuctionProperties");
 const { getDataExtraction } = require("../utils/csv");
 const { convertInteger } = require("../utils/number");
 const { downloadAuctionPropertiesList, renameFile } = require("../utils/file");
+const { trimObject } = require("../utils/util");
 
 class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
   async execute() {
@@ -97,7 +98,7 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
                 propertyOld.access_link != access_link);
             const canAdd = !propertyOld || hasDifference;
             if (canAdd) {
-              allData.push({
+              const addData = trimObject({
                 number_property,
                 uf,
                 city,
@@ -114,6 +115,7 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
                 photo_link: "",
                 registration_property_link: "",
               });
+              allData.push(addData);
               deleteNumbersProperty.push(number_property);
             }
           }
