@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
-const { mainWindow } = require("./windows/main-window");
+const { mainWindow } = require("./windows/main/main-window");
 const {
   UpdateAuctionPropertiesUseCase,
 } = require("./usecases/UpdateAuctionPropertiesUseCase");

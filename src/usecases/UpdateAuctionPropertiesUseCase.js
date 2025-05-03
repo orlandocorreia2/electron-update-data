@@ -56,6 +56,7 @@ class UpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
       await this.setDetails(allData);
       await prisma.auctionProperty.deleteMany();
       await prisma.auctionProperty.createMany({ data: allData });
+      await this.retryData();
       console.log("Finished data...");
       return { totalRows: allData.length };
     } catch (error) {
