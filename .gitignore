@@ -2,8 +2,10 @@ dist
 node_modules
 .env
 package-lock.json
-yarn-lock
+yarn.lock
 
 scr/tmp/*
 !scr/tmp/.gitkeep
 
+
+out/
