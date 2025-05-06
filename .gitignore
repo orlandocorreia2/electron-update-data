@@ -7,5 +7,5 @@ yarn.lock
 scr/tmp/*
 !scr/tmp/.gitkeep
 
-
+playwright-browsers
 out/

@@ -36,6 +36,7 @@ compareUpdateRegisters.addEventListener("click", () => {
         alert(
           "Para fazer a atualização simples, é necessário ter feito a atualização completa antes."
         );
+        window.api.reloadApp();
         return;
       }
       showInfo({ totalRows, time, timer });
