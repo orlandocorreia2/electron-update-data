@@ -1,19 +1,25 @@
+const { app } = require("electron");
 const { SaveAuctionProperties } = require("../shared/SaveAuctionProperties");
 const { PrismaClient } = require("@prisma/client");
 const { getDataExtraction } = require("../utils/csv");
 const { convertInteger } = require("../utils/number");
 const { downloadAuctionPropertiesList } = require("../utils/file");
 const { trimObject } = require("../utils/util");
+const { createFolterIfNotExists } = require("../utils/folder");
 
 class UpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
   async execute() {
     const allData = [];
     const prisma = new PrismaClient();
+    const folderPath = `${app.getPath("documents")}/jarvis_leiloes/tmp`;
     try {
-      await downloadAuctionPropertiesList();
+      createFolterIfNotExists(folderPath);
+      await downloadAuctionPropertiesList({
+        saveAsPath: `${folderPath}/auction_properties.csv`,
+      });
       console.log("Start rows file...");
       await getDataExtraction({
-        filePath: "src/tmp/auction_properties.csv",
+        filePath: `${folderPath}/auction_properties.csv`,
         fn: async (data) => {
           const {
             _1: uf,

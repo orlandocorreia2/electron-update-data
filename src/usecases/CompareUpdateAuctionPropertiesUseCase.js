@@ -1,8 +1,10 @@
+const { app } = require("electron");
 const { SaveAuctionProperties } = require("../shared/SaveAuctionProperties");
 const { getDataExtraction } = require("../utils/csv");
 const { convertInteger } = require("../utils/number");
 const { downloadAuctionPropertiesList, renameFile } = require("../utils/file");
 const { trimObject } = require("../utils/util");
+const { createFolterIfNotExists } = require("../utils/folder");
 
 class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
   async execute() {
@@ -12,15 +14,21 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
     const oldNumbersProperty = {};
     const newNumbersProperty = {};
     const deleteNumbersProperty = [];
+    const folderPath = `${app.getPath("documents")}/jarvis_leiloes/tmp`;
     try {
+      createFolterIfNotExists(folderPath);
       renameFile({
-        oldName: "src/tmp/auction_properties.csv",
-        newName: "src/tmp/auction_properties_old.csv",
+        oldName: `${folderPath}/auction_properties.csv`,
+        newName: `${app.getPath(
+          "documents"
+        )}/jarvis_leiloes/tmp/auction_properties_old.csv`,
       });
-      await downloadAuctionPropertiesList();
+      await downloadAuctionPropertiesList({
+        saveAsPath: `${folderPath}/auction_properties.csv`,
+      });
       console.log("Start rows old file...");
       await getDataExtraction({
-        filePath: "src/tmp/auction_properties_old.csv",
+        filePath: `${folderPath}/auction_properties_old.csv`,
         fn: async (data) => {
           const {
             _1: uf,
@@ -60,7 +68,7 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
       });
       console.log("Start rows file...");
       await getDataExtraction({
-        filePath: "src/tmp/auction_properties.csv",
+        filePath: `${folderPath}/auction_properties_old.csv`,
         fn: async (data) => {
           const {
             _1: uf,

@@ -14,7 +14,7 @@
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:generate": "npx prisma generate",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "npx prisma generate && electron-forge make"
   },
   "keywords": [],
   "author": "Orlando Nascimento",

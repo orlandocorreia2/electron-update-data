@@ -12,7 +12,7 @@ const aboutWindow = () => {
       height: 480,
       resizable: false,
       frame: false,
-      icon: path.join(__dirname, "..", "assets", "icon.png"),
+      icon: path.join(__dirname, "..", "..", "public", "assets", "icon.png"),
       parent: fatherWindow,
       modal: true,
       autoHideMenuBar: true,

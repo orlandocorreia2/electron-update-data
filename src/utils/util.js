@@ -15,13 +15,10 @@ const trimObject = (obj) => {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = obj[key];
-      if (typeof value === "string") {
-        trimmedObj[key] = value.trim();
-      } else if (typeof value === "object" && value !== null) {
+      trimmedObj[key] = value;
+      if (typeof value === "string") trimmedObj[key] = value.trim();
+      if (typeof value === "object" && value !== null)
         trimmedObj[key] = trimObject(value);
-      } else {
-        trimmedObj[key] = value;
-      }
     }
   }
   return trimmedObj;

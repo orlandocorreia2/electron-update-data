@@ -1,17 +1,24 @@
-const { app, BrowserWindow, nativeTheme, Menu, shell } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  nativeTheme,
+  Menu,
+  shell,
+  ipcMain,
+} = require("electron");
 const path = require("node:path");
 const { aboutWindow } = require("../about/about-window");
 
 const mainWindow = () => {
   nativeTheme.themeSource = "dark";
-  const win = new BrowserWindow({
+  const window = new BrowserWindow({
     width: 800,
     height: 600,
     resizable: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    icon: path.join(__dirname, "..", "public", "assets", "icon.png"),
+    icon: path.join(__dirname, "..", "..", "public", "assets", "icon.png"),
   });
 
   Menu.setApplicationMenu(
@@ -53,7 +60,16 @@ const mainWindow = () => {
     ])
   );
 
-  win.loadFile("src/screens/main/index.html");
+  window.loadFile("src/screens/main/index.html");
+
+  ipcMain.on("window-main-reload", () => {
+    console.log("main reload");
+    if (window) {
+      setTimeout(() => {
+        window.reload();
+      }, 3000);
+    }
+  });
 };
 
 exports.mainWindow = mainWindow;

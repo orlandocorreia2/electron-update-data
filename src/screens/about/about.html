@@ -1,35 +1,72 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br" xml:lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sobre</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" href="../../public/assets/icon.png" type="image/png" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
+    <title>Imóveis de Leilão</title>
   </head>
+
   <body>
-    <div class="container">
-      <div id="close">x</div>
-      <h1>Sobre a Aplicação</h1>
-      <p>
-        Bem-vindo à nossa aplicação! Esta ferramenta foi desenvolvida para
-        atualizar os imóveis de leilão da Caixa Econômica Federal.
-      </p>
+    <div id="close">x</div>
+    <header id="about-header">
+      <div>
+        <h2>Sobre a Aplicação</h2>
+        <p>Bem-vindo à nossa aplicação!</p>
+        <p>
+          Esta aplicação tem a finalizada de atualizar a base de dados da
+          Plataforma JARVIS, sincronizando os dados com o site da Caixa
+          Econômica Federal.
+        </p>
+      </div>
+    </header>
 
-      <h2>Versão</h2>
-      <ul>
-        <li>1.0.0</li>
-      </ul>
+    <main id="about-main">
+      <section>
+        <h3>Versão: 1.0.0</h3>
+      </section>
 
-      <h2>Funcionalidades</h2>
-      <ul>
-        <li>Atualização completa dos imóveis de leilão da Caixa.</li>
-        <li>Atualização comparativa dos imóveis de leilão da Caixa.</li>
-      </ul>
+      <section>
+        <h3>Funcionalidades</h3>
+        <ul>
+          <li>Atualização completa dos imóveis</li>
+          <li>Atualização comparativa dos imóveis</li>
+        </ul>
+      </section>
 
-      <h2>Contato</h2>
-      <p>Se você tiver alguma dúvida ou sugestão, entre em contato conosco:</p>
-      <p>Email: marcelo.fatecpoa@gmail.com/ocnascimento2@gmail.com</p>
-    </div>
+      <section>
+        <h3>Contato</h3>
+        <p>
+          Se você tiver alguma dúvida ou sugestão, entre em contato conosco:
+        </p>
+        <p>
+          <strong>Email:</strong>
+          <a href="mailto:marcelo.fatecpoa@gmail.com"
+            >marcelo.fatecpoa@gmail.com</a
+          >
+        </p>
+        <p>
+          <strong>WhatsApp:</strong>
+          <a
+            href="https://api.whatsapp.com/send?phone=5551981838118&text=Ol%C3%A1!"
+            target="_blank"
+            >(51) 98183-8118</a
+          >
+        </p>
+      </section>
+    </main>
     <script src="./scripts.js"></script>
   </body>
 </html>

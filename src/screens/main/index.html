@@ -2,30 +2,39 @@
 <html lang="pt-br" xml:lang="pt-br">
   <head>
     <meta charset="UTF-8" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" href="../../public/assets/icon.png" type="image/png" />
     <meta
       http-equiv="Content-Security-Policy"
       content="script-src 'self' 'unsafe-inline';"
     />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
     <title>Imóveis de Leilão</title>
   </head>
+
   <body>
-    <div>
-      <div class="w-full mb-md">
-        <button id="updateRegisters">Atualização Completa</button>
+    <header>
+      <div>
+        <img src="logo.png" alt="Logo JARVIS" />
       </div>
-
-      <div class="w-full">
-        <button id="compareUpdateRegisters">Atualização Simples</button>
-      </div>
-
-      <div style="width: 100%">
-        <div id="processing" style="margin-top: 30px; display: none"></div>
-        <div id="messageInfo" style="margin-top: 30px"></div>
-        <div id="registersInfo" style="margin-top: 30px"></div>
-        <div id="timeInfo" style="margin-top: 30px"></div>
-      </div>
-    </div>
+    </header>
+    <main id="home-main">
+      <button id="updateRegisters">Atualizar Todos Registros</button>
+      <button id="compareUpdateRegisters">Atualização Simples</button>
+      <ul>
+        <li id="processing" style="display: none"></li>
+        <li id="messageInfo"></li>
+        <li id="registersInfo"></li>
+        <li id="timeInfo"></li>
+      </ul>
+    </main>
     <script src="./scripts.js"></script>
   </body>
 </html>

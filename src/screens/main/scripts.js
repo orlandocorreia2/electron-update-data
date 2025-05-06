@@ -13,16 +13,32 @@ updateRegisters.addEventListener("click", async () => {
   clear();
   initTime();
   processing();
-  const { totalRows } = await window.api.updateAuctionProperties();
-  showInfo({ totalRows, time, timer });
+  window.api
+    .updateAuctionProperties()
+    .then(({ totalRows }) => {
+      showInfo({ totalRows, time, timer });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Erro ao atualizar os registros. Tente mais tarde.");
+      window.api.reloadApp();
+    });
 });
 
-compareUpdateRegisters.addEventListener("click", async () => {
+compareUpdateRegisters.addEventListener("click", () => {
   clear();
   initTime();
   processing();
-  const { totalRows } = await window.api.compareUpdateAuctionProperties();
-  showInfo({ totalRows, time, timer });
+  window.api
+    .compareUpdateAuctionProperties()
+    .then(({ totalRows }) => {
+      showInfo({ totalRows, time, timer });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Erro ao atualizar os registros. Tente mais tarde.");
+      window.api.reloadApp();
+    });
 });
 
 const initTime = () => {
