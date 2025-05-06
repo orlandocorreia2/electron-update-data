@@ -10,8 +10,10 @@ module.exports = {
     {
       name: "@electron-forge/maker-squirrel",
       config: {
+        iconUrl: "https://dev.meuleilaoonline.com/favicon.ico",
+        setupIcon: "./src/public/assets/logo.ico",
         options: {
-          icon: "./src/public/assets/icon.png",
+          icon: "./src/public/assets/logo.ico",
         },
       },
     },
