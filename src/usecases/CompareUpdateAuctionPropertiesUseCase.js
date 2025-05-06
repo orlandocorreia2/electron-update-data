@@ -2,9 +2,12 @@ const { app } = require("electron");
 const { SaveAuctionProperties } = require("../shared/SaveAuctionProperties");
 const { getDataExtraction } = require("../utils/csv");
 const { convertInteger } = require("../utils/number");
-const { downloadAuctionPropertiesList, renameFile } = require("../utils/file");
+const {
+  downloadAuctionPropertiesList,
+  renameFile,
+  fileExists,
+} = require("../utils/file");
 const { trimObject } = require("../utils/util");
-const { createFolterIfNotExists } = require("../utils/folder");
 
 class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
   async execute() {
@@ -16,7 +19,9 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
     const deleteNumbersProperty = [];
     const folderPath = `${app.getPath("documents")}/jarvis_leiloes/tmp`;
     try {
-      createFolterIfNotExists(folderPath);
+      if (!fileExists(`${folderPath}/auction_properties.csv`)) {
+        return { totalRows: allData.length, message: "Error rename file" };
+      }
       renameFile({
         oldName: `${folderPath}/auction_properties.csv`,
         newName: `${app.getPath(

@@ -1,9 +1,12 @@
-const playwright = require("playwright");
+const { chromium } = require("playwright");
 
 let browser;
 
 const getPage = async (headless = true) => {
-  browser = await playwright.chromium.launch({ headless });
+  browser = await chromium.launch({
+    headless,
+    executablePath: chromium.executablePath(),
+  });
   const context = await browser.newContext({
     ...playwright.devices["Desktop Chrome"],
     acceptDownloads: true,

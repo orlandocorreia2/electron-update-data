@@ -31,7 +31,13 @@ compareUpdateRegisters.addEventListener("click", () => {
   processing();
   window.api
     .compareUpdateAuctionProperties()
-    .then(({ totalRows }) => {
+    .then(({ totalRows, message }) => {
+      if (message == "Error rename file") {
+        alert(
+          "Para fazer a atualização simples, é necessário ter feito a atualização completa antes."
+        );
+        return;
+      }
       showInfo({ totalRows, time, timer });
     })
     .catch((error) => {

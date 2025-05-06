@@ -28,6 +28,10 @@ const getDetailAuctionProperty = async (access_link, page) => {
   }
 };
 
+const fileExists = (path) => {
+  return fs.existsSync(path);
+};
+
 const renameFile = ({ oldName, newName }) => {
   fs.rename(oldName, newName, (error) => {
     if (error) {
@@ -39,3 +43,4 @@ const renameFile = ({ oldName, newName }) => {
 exports.downloadAuctionPropertiesList = downloadAuctionPropertiesList;
 exports.getDetailAuctionProperty = getDetailAuctionProperty;
 exports.renameFile = renameFile;
+exports.fileExists = fileExists;
