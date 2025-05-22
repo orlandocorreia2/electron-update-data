@@ -59,6 +59,8 @@ const initTime = () => {
 };
 
 const clear = () => {
+  clearInterval(timer);
+  time = 0;
   messageInfo.innerHTML = "";
   registersInfo.innerHTML = "";
   timeInfo.innerHTML = "";

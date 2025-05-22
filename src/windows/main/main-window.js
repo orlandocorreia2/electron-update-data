@@ -18,6 +18,7 @@ const mainWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
+    maximizable: false,
     icon: path.join(__dirname, "..", "..", "public", "assets", "icon.png"),
   });
 
@@ -63,11 +64,10 @@ const mainWindow = () => {
   window.loadFile("src/screens/main/index.html");
 
   ipcMain.on("window-main-reload", () => {
-    console.log("main reload");
     if (window) {
       setTimeout(() => {
         window.reload();
-      }, 3000);
+      }, 1000);
     }
   });
 };

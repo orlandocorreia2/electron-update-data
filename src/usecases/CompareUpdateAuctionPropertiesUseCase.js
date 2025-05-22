@@ -24,9 +24,7 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
       }
       renameFile({
         oldName: `${folderPath}/auction_properties.csv`,
-        newName: `${app.getPath(
-          "documents"
-        )}/jarvis_leiloes/tmp/auction_properties_old.csv`,
+        newName: `${folderPath}/auction_properties_old.csv`,
       });
       await downloadAuctionPropertiesList({
         saveAsPath: `${folderPath}/auction_properties.csv`,
@@ -73,7 +71,7 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
       });
       console.log("Start rows file...");
       await getDataExtraction({
-        filePath: `${folderPath}/auction_properties_old.csv`,
+        filePath: `${folderPath}/auction_properties.csv`,
         fn: async (data) => {
           const {
             _1: uf,
@@ -164,7 +162,6 @@ class CompareUpdateAuctionPropertiesUseCase extends SaveAuctionProperties {
     await this._prisma.auctionProperty.deleteMany({
       where: { number_property: { in: deleteNumbersProperty } },
     });
-    console.log("Finish delete rows...");
   }
 }
 
